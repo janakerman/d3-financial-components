@@ -7,8 +7,9 @@
             barWidth = fc.util.fractionalBarWidth(0.75),
             xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            // Implicitly dependant on the implementation of the stack layout's `out`.
-            y0Value = function(d, i) { return d.y0; };
+            // Implicitly dependent on the implementation of the stack layout's `out`.
+            stackY0 = function(d, i) { return d.y0; },
+            stackY = function(d, i) { return d.y; };
 
         var stackLayout = d3.layout.stack();
 
@@ -18,8 +19,8 @@
                 .xScale(xScale)
                 .yScale(yScale)
                 .xValue(stackLayout.x())
-                .yValue(function(d) { return y0Value(d) + stackLayout.y()(d); })
-                .y0Value(y0Value);
+                .yValue(function(d) { return stackY0(d) + stackY(d); })
+                .y0Value(stackY0);
 
             selection.each(function(data) {
 
@@ -69,11 +70,18 @@
             yScale = x;
             return stackedBar;
         };
-        stackedBar.y0Value = function(x) {
+        stackedBar.stackY0 = function(x) {
             if (!arguments.length) {
-                return y0Value;
+                return stackY0;
             }
-            y0Value = x;
+            stackY0 = x;
+            return stackedBar;
+        };
+        stackedBar.stackY = function(x) {
+            if (!arguments.length) {
+                return stackY;
+            }
+            stackY = x;
             return stackedBar;
         };
 
