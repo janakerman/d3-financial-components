@@ -26,13 +26,13 @@
                 switch (axisAdapter.orient()) {
                     case 'top':
                     case 'bottom':
-                        g.attr('transform', 'translate(0,' + yScale(baseline(data)) + ')');
+                        dataJoin.attr('transform', 'translate(0,' + yScale(baseline(data)) + ')');
                         axis.scale(xScale);
                         break;
 
                     case 'left':
                     case 'right':
-                        g.attr('transform', 'translate(' + xScale(baseline(data)) + ',0)');
+                        dataJoin.attr('transform', 'translate(' + xScale(baseline(data)) + ',0)');
                         axis.scale(yScale);
                         break;
 
@@ -40,7 +40,7 @@
                         throw new Error('Invalid orientation');
                 }
 
-                dataJoin(container, [data])
+                var g = dataJoin(container, [data])
                     .call(axis);
 
                 decorate(g);
