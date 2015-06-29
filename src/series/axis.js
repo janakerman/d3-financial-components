@@ -18,10 +18,10 @@
 
                 var container = d3.select(this);
 
-                var g = fc.util.simpleDataJoin(container, 'axis-adapter', [data]);
-
-                g.enter()
-                    .attr('class', 'axis axis-adapter');
+                var dataJoin = fc.util.dataJoin()
+                    .selector('axis-adapter')
+                    .element('g')
+                    .attrs({'class': 'axis axis-adapter'});
 
                 switch (axisAdapter.orient()) {
                     case 'top':
@@ -40,7 +40,8 @@
                         throw new Error('Invalid orientation');
                 }
 
-                g.call(axis);
+                dataJoin(container, [data])
+                    .call(axis);
 
                 decorate(g);
             });
