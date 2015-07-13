@@ -7,11 +7,20 @@
             .yValue(function(d) { return d.y0 + d.y; })
             .y0Value(function(d) { return d.y0; });
 
-        var stack = fc.series.stacked.stack()
-            .series(bar);
-
         var stackedBar = function(selection) {
-            selection.call(stack);
+
+            var numSeries = selection.datum().length;
+
+            var series = Array.apply(null, new Array(numSeries))
+                .map(function() { return bar; });
+
+            var multi = fc.series.multi()
+                .series(series)
+                .mapping(function(series, i) {
+                    return this[i];
+                });
+
+            selection.call(multi);
         };
 
         return fc.util.rebind(stackedBar, bar, {

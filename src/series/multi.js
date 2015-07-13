@@ -47,8 +47,10 @@
                     // doing this we at least make it debuggable garbage :)
                     this.__series__ = series;
 
-                    (series.xScale || series.x).call(series, xScale);
-                    (series.yScale || series.y).call(series, yScale);
+                    // TODO: Why do these keep changig scale to default?
+                    // what's the purpose of this?
+                    // (series.xScale || series.x).call(series, xScale);
+                    // (series.yScale || series.y).call(series, yScale);
 
                     d3.select(this)
                         .datum(mapping.call(data, series, i))
