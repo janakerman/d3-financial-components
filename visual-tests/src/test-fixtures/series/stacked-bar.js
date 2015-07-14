@@ -59,7 +59,7 @@
             .xScale(x)
             .yScale(y)
             .xValue(function(d) { return d.state; })
-            .decorate(function(sel, data, index) {
+            .decorate(function(sel) {
                 sel.selectAll('path')
                     .style('fill', function(data, groupIndex, outerIndex) {
                         return color(outerIndex);
