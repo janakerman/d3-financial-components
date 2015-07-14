@@ -7,17 +7,30 @@
             .yValue(function(d) { return d.y0 + d.y; })
             .y0Value(function(d) { return d.y0; });
 
-        var stack = fc.series.stacked.stack()
-            .series(bar);
+        var multi = fc.series.multi()
+            .mapping(function(series, i) {
+                return this[i];
+            });
 
         var stackedBar = function(selection) {
-            selection.call(stack);
+
+            selection.each(function(data) {
+
+                var series = data.map(function() { return bar; });
+
+                multi.series(series);
+
+                selection.call(multi);
+            });
         };
 
-        return fc.util.rebind(stackedBar, bar, {
-            decorate: 'decorate',
+        fc.util.rebind(stackedBar, multi, {
             xScale: 'xScale',
             yScale: 'yScale',
+            decorate: 'decorate'
+        });
+
+        return fc.util.rebind(stackedBar, bar, {
             xValue: 'xValue',
             y0Value: 'y0Value',
             y1Value: 'y1Value',
