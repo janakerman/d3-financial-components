@@ -59,10 +59,11 @@
             .xScale(x)
             .yScale(y)
             .xValue(function(d) { return d.state; })
-            .decorate(function(sel, data, index) {
-                sel.style('stroke', function(d, i) {
-                    return color(index);
-                });
+            .decorate(function(sel) {
+                sel.selectAll('path')
+                    .style('stroke', function(data, groupIndex, outerIndex) {
+                        return color(outerIndex);
+                    });
             });
 
         function findClosest(arr, minimize) {
